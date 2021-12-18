@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	    <title>进度条</title>
+		<style>
+			body {
+				display: flex;
+				height: 100vh;/* vh == 1% */
+				margin: 0;
+			}
+			
+			section {
+				width: 500px;
+				height: 60%;
+				display: flex;/* 弹性布局 */
+				justify-content: center;
+				align-items: center;/* 位于弹性盒子的中间 */
+				flex-wrap: wrap; /* 规定灵活的项目在必要的时候拆行或拆列 */
+				margin: auto; /* 整体居中显示 */
+			}
+			
+			.circle {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				border: 4px solid #e0e0e0;
+				transition: border 1s;
+				vertical-align: middle;
+				text-align: center;
+				line-height: 30px;
+			}
+			
+			.way {
+				height: 0;
+				width: 20%;
+				border: 2px solid #e0e0e0;
+				transition: border 1s;
+			}
+			
+			button {
+				width: 60px;
+				height: 30px;
+				border-radius: 10px;
+				margin: 10px;
+				cursor: pointer;
+			}
+			
+			.active {
+				border: 2px solid #3498db;
+				transition: border 1s;
+			}
+			
+			button:disabled {
+				cursor: not-allowed;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- section 可以把多看成一 -->
+		<section>
+			<div class="circle active">1</div>
+			<div class="way"></div>
+			<div class="circle">2</div>
+			<div class="way"></div>
+			<div class="circle">3</div>
+			<div class="way"></div>
+			<div class="circle">4</div>
+			<button class="prev">prev</button>
+			<button class="next">next</button>
+		</section>	
+		<script src="../js/jquery-1.11.3/jquery.min.js"></script>
+		<script>
+			const prev = document.querySelector('.prev');
+			const next = document.querySelector('.next');
+			const circles = document.querySelectorAll('.circle');
+			const ways = document.querySelectorAll('.way');
+			
+			let index = 0;  //用来记录下标
+			prev.disabled = true;  //禁用
+			
+			prev.addEventListener('click', function() {
+				circles[index].classList.remove('active');
+				index--;
+				ways[index].classList.remove('active');
+				btn();
+			})
+			
+			next.addEventListener('click', function() {
+				ways[index].classList.add('active');				
+				index++;
+				btn();
+				circles[index].classList.add('active');			
+			})
+			function btn() {
+				if(index <= 0) {
+					prev.disabled = true;
+				} else if (index >= circles.length - 1) {
+					next.disabled = true;
+				} else {
+					prev.disabled = false;
+					next.disabled = false;
+				}
+			}
+		</script>	
+	</body>
+</html>
